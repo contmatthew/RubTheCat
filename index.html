@@ -8,28 +8,64 @@
 
 <style>
 #cat-btn{
-    width: 50%;
-    height: 50%;
+    width: 23%;
+    height: 35%;
 }
 </style>
 
 <script>
+
+function encrypt(encrypt_value){
+    var enc_btoa = btoa(encrypt_value);
+    var rand = Math.floor((Math.random() * 600) + 100);
+    var enc_btoa1 = enc_btoa += rand += "=";
+    return enc_btoa1;
+}
+
+function decrypt(decrypt_value){
+    var decrypt_value_str = decrypt_value.slice(0, -4);
+    return atob(decrypt_value_str);
+}
+
+function logenc(log_enc){console.log(encrypt(log_enc));}
+
+function logdenc(log_denc){console.log(decrypt(log_denc));}
+
 function catclick(){
 
     if (localStorage.getItem("clicks") === null) {
-        localStorage.setItem("clicks", 1);
+        localStorage.setItem("clicks", 0);
+        document.getElementById("clicks").innerHTML = 0;
     }else{
+
+        if(localStorage.clicks = "NaN"){
+            localStorage.setItem("clicks", 0);
+            console.log("Error, Clicks: NaN");
+        }else{
+
         var count = parseInt(localStorage.clicks);
         count += 1;
         document.getElementById("clicks").innerHTML = count;
         localStorage.clicks = count;
+        }
+    }
+}
+
+function usekey(){
+    var x = document.getElementById("key").value;
+    try{
+        var key = decrypt(x);
+        document.getElementById("clicks").innerHTML = key;
+        localStorage.clicks = key;
+    }catch{
+        alert("Error!");
     }
 }
 
 $( document ).ready(function() {
     console.log("Loaded!");
     if (localStorage.getItem("clicks") === null) {
-        localStorage.setItem("clicks", 1);
+        localStorage.setItem("clicks", 0);
     }else{
         var count = parseInt(localStorage.clicks);
         document.getElementById("clicks").innerHTML = count;
@@ -43,7 +79,7 @@ $( document ).ready(function() {
 
 <center>
     <h1>Rub The Cat</h1>
-    <h3>By Versage And RoboMat</h3>
+    <h3>By Vapor And RoboMat</h3>
     <br />
     <h5>Clicks:</h5>
     <h5 id="clicks">0</h5>
@@ -52,4 +88,17 @@ $( document ).ready(function() {
     <br />
     <br />
     <img onclick="catclick()" id="cat-btn" src="https://i.ytimg.com/vi/I7jgu-8scIA/maxresdefault.jpg"></img>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">Input Key</span>
+            </div>
+            <input type="text" id="key" aria-label="key" class="form-control">
+          </div>
+    <br />
+    <button type="button" onclick="usekey()" class="btn btn-primary">Use Key</button>
 </center>
